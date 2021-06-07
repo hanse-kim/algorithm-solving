@@ -27,3 +27,19 @@ def solution(n, lost, reserve):
     return n - fail
 ```
 
+```python
+def solution(n, lost, reserve):
+    reservable = [n for n in reserve if n not in lost]
+    real_lost = [n for n in lost if n not in reserve]
+    
+    for reservable_n in reservable:
+        reservable_front = reservable_n - 1
+        reservable_back = reservable_n + 1
+        if reservable_front in real_lost:
+            real_lost.remove(reservable_front)
+        elif reservable_back in real_lost:
+            real_lost.remove(reservable_back)
+    
+    return n - len(real_lost)
+```
+
