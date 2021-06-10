@@ -32,3 +32,54 @@ def solution(clothes):
     return result - 1
 ```
 
+---
+
+## 풀이 - JavaScript
+
+Map 객체도 사용해보고 오브젝트도 사용해봤는데, Map의 속도가 2배 가량 빨랐다.
+
+어차피 타입스크립트에선 오브젝트를 해시맵처럼 사용하지도 못하니 익숙해지도록 Map을 계속 사용해야겠다. 
+
+```javascript
+// Map 사용
+
+const solution = (clothes) => {
+  const clothesCount = new Map();
+  for (const cloth of clothes) {
+    if (!clothesCount.has(cloth[1])) {
+      clothesCount.set(cloth[1], 1);
+    }
+
+    clothesCount.set(cloth[1], clothesCount.get(cloth[1]) + 1);
+  }
+
+  let answer = 1;
+  for (const v of clothesCount.values()) {
+    answer *= v;
+  }
+
+  return answer - 1;
+};
+```
+
+```javascript
+// Object 사용
+
+const solution = (clothes) => {
+  const clothesCount = {};
+  for (const cloth of clothes) {
+    if (!(cloth[1] in clothesCount)) {
+      clothesCount[cloth[1]] = 1;
+    }
+
+    clothesCount[cloth[1]] += 1;
+  }
+
+  let answer = 1;
+  for (const [k, v] of Object.entries(clothesCount)) {
+    answer *= v;
+  }
+
+  return answer - 1;
+};
+```
