@@ -40,3 +40,37 @@ def solution(genres, plays):
     return result
 ```
 
+---
+
+## 풀이 - JavaScript
+
+```javascript
+const solution = (genres, plays) => {
+  const playsForGenres = new Map(); // string, number
+  const bestAlbums = new Map(); // string, number[]
+
+  for (let i = 0; i < genres.length; i++) {
+    const genre = genres[i];
+    const play = plays[i];
+    if (!playsForGenres.has(genre)) {
+      playsForGenres.set(genre, 0);
+      bestAlbums.set(genre, []);
+    }
+
+    playsForGenres.set(genre, playsForGenres.get(genre) + play);
+    const bestAlbumsNow = bestAlbums.get(genre);
+    bestAlbumsNow.push(i);
+    bestAlbumsNow.sort((a, b) => plays[b] - plays[a]);
+    bestAlbums.set(genre, bestAlbumsNow.slice(0, 2));
+  }
+
+  const genreOrder = [...new Set(genres)].sort((a, b) => playsForGenres.get(b) - playsForGenres.get(a));
+  let album = [];
+  for (let genre of genreOrder) {
+    album = album.concat(bestAlbums.get(genre));
+  }
+
+  return album;
+}
+```
+
